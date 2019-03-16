@@ -1,4 +1,4 @@
 ### Wire 
 
-![alt text](https://airwire.io/Content/logos/logo-o-color-w-400.svg)
+![alt text](https://airwire.io/Content/logos/logo-o-color-b-400.svg)
 
