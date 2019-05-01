@@ -130,7 +130,7 @@ public:
         nDefaultPort = 6520;
         bnProofOfWorkLimit = ~uint256(0) >> 20; // Wire starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 210000;
-        nMaxReorganizationDepth = 100;
+        nMaxReorganizationDepth = 90; //Reduce max reorg depth by 10%
         nEnforceBlockUpgradeMajority = 750;
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
