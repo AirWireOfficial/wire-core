@@ -1755,15 +1755,16 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
         //make sure not to outrun target amount
         if (nAmountSelected + out.tx->vout[out.i].nValue > nTargetAmount)
             continue;
-
         //if zerocoinspend, then use the block time
         int64_t nTxTime = out.tx->GetTxTime();
+        //check for minnimum stake input
+         if (out.tx->vout[out.i].nValue < Params().MinStakeInput() * COIN && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT) && nTxTime > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT))
+            continue;
         if (out.tx->IsZerocoinSpend()) {
             if (!out.tx->IsInMainChain())
                 continue;
             nTxTime = mapBlockIndex.at(out.tx->hashBlock)->GetBlockTime();
         }
-
         //check for min age
         if (GetAdjustedTime() - nTxTime < nStakeMinAge)
             continue;
@@ -2538,6 +2539,9 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
     if (nBalance <= nReserveBalance)
         return false;
+    //akshaynexus - Enforce balance to be greater than mininput
+    if(nBalance < (Params().MinStakeInput * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT))
+        return error("CreateCoinStake : balance lower than minnimum input");
 
     // presstab HyperStake - Initialize as static and don't update the set on every run of CreateCoinStake() in order to lighten resource use
     static std::set<pair<const CWalletTx*, unsigned int> > setStakeCoins;

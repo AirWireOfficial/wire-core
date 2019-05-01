@@ -144,7 +144,7 @@ public:
         nBlockRecalculateAccumulators = ~1; //Trigger a recalculation of accumulators
         nBlockFirstFraudulent = ~1; //First block that bad serials emerged
         nBlockLastGoodCheckpoint = ~1; //Last valid accumulator checkpoint
-        
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
         /**
          * Build the genesis block. Note that the output of the genesis coinbase cannot
          * be spent as it did not originally exist in the database.
@@ -270,7 +270,8 @@ public:
         nBlockRecalculateAccumulators = 9908000; //Trigger a recalculation of accumulators
         nBlockFirstFraudulent = 9891737; //First block that bad serials emerged
         nBlockLastGoodCheckpoint = 9891730; //Last valid accumulator checkpoint
-        
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
+
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1515616140;
         genesis.nNonce = 79855;
@@ -345,6 +346,7 @@ public:
         genesis.nTime = 1515524400;
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 732084;
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
 
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 51436;
@@ -381,6 +383,7 @@ public:
         nDefaultPort = 51478;
         vFixedSeeds.clear(); //! Unit test mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Unit test mode doesn't have any DNS seeds.
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
 
         fRequireRPCPassword = false;
         fMiningRequiresPeers = false;

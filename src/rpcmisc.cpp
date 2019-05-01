@@ -524,6 +524,7 @@ Value getstakingstatus(const Array& params, bool fHelp)
             "  \"walletunlocked\": true|false,     (boolean) if the wallet is unlocked\n"
             "  \"mintablecoins\": true|false,      (boolean) if the wallet has mintable coins\n"
             "  \"enoughcoins\": true|false,        (boolean) if available coins are greater than reserve balance\n"
+            "  \"enoughbalance\": true|false,      (boolean) if available coins are greater than min stake input amount\n"
             "  \"mnsync\": true|false,             (boolean) if masternode data is synced\n"
             "  \"staking status\": true|false,     (boolean) if the wallet is staking or not\n"
             "}\n"
@@ -531,12 +532,14 @@ Value getstakingstatus(const Array& params, bool fHelp)
             HelpExampleCli("getstakingstatus", "") + HelpExampleRpc("getstakingstatus", ""));
 
     Object obj;
+    CAmount nBalance = pwalletMain->GetBalance();
     obj.push_back(Pair("validtime", chainActive.Tip()->nTime > 1471482000));
     obj.push_back(Pair("haveconnections", !vNodes.empty()));
     if (pwalletMain) {
         obj.push_back(Pair("walletunlocked", !pwalletMain->IsLocked()));
         obj.push_back(Pair("mintablecoins", pwalletMain->MintableCoins()));
-        obj.push_back(Pair("enoughcoins", nReserveBalance <= pwalletMain->GetBalance()));
+        obj.push_back(Pair("enoughcoins", nReserveBalance <= nBalance));
+        obj.push_back(Pair("enoughbalance", nBalance > Params().MinStakeInput()));
     }
     obj.push_back(Pair("mnsync", masternodeSync.IsSynced()));
 
