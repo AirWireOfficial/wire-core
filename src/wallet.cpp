@@ -1834,7 +1834,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, int nConfMine, int
 
             const CWalletTx* pcoin = output.tx;
 
-            //            if (fDebug) LogPrint("selectcoins", "value %s confirms %d\n", FormatMoney(pcoin->vout[output.i].nValue), output.nDepth);
+                       if (fDebug) LogPrint("selectcoins", "value %s confirms %d\n", FormatMoney(pcoin->vout[output.i].nValue), output.nDepth);
             if (output.nDepth < (pcoin->IsFromMe(ISMINE_ALL) ? nConfMine : nConfTheirs))
                 continue;
 
@@ -2542,6 +2542,8 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     //akshaynexus - Enforce balance to be greater than mininput
     if(nBalance < (Params().MinStakeInput * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT))
         return error("CreateCoinStake : balance lower than minnimum input");
+    if(fDebug)
+       LogPrintf("CreateCoinStake() Current Balance%s\n",boost::lexical_cast<std::string>(nBalance));
 
     // presstab HyperStake - Initialize as static and don't update the set on every run of CreateCoinStake() in order to lighten resource use
     static std::set<pair<const CWalletTx*, unsigned int> > setStakeCoins;
