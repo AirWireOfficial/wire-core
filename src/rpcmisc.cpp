@@ -539,7 +539,7 @@ Value getstakingstatus(const Array& params, bool fHelp)
         obj.push_back(Pair("walletunlocked", !pwalletMain->IsLocked()));
         obj.push_back(Pair("mintablecoins", pwalletMain->MintableCoins()));
         obj.push_back(Pair("enoughcoins", nReserveBalance <= nBalance));
-        obj.push_back(Pair("enoughbalance", nBalance > Params().MinStakeInput()));
+        obj.push_back(Pair("enoughbalance", nBalance > ValueFromAmount(Params().MinStakeInput()));
     }
     obj.push_back(Pair("mnsync", masternodeSync.IsSynced()));
 
