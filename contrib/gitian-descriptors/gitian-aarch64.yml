@@ -25,8 +25,8 @@ packages:
 - "python"
 reference_datetime: "2015-06-01 00:00:00"
 remotes:
-- "url": "https://github.com/eastcoastcrypto/Wire"
-  "dir": "wire"
+- "url": "https://github.com/AirWireOfficial/wire-core"
+  "dir": "wire-core"
 files: []
 script: |
 
@@ -110,7 +110,7 @@ script: |
   chmod +x ${WRAP_DIR}/${prog}
   done
 
-  cd wire
+  cd wire-core
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
