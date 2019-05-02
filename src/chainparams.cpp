@@ -68,11 +68,18 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
 	(280000, uint256("e9e5d34b61ce7cd8b883e45498e5b26fdc5a616fbce6317905a23a40997611e9"))
 	(300000, uint256("665c5533c161dea8837100910b2558646ad093c71d00a96a40948baa61a5a73b"))
 	(330000, uint256("fcf0c1591c06cdf7d54ab57b17c42b95ae787d4639eab852459666cb021a6fd2"))
-	(350000, uint256("effcaa0ee82ab1b4750234b0ceb3635b04512a2f0f74ca3bf5d503f85a7a6eb1"));
-	
+	(350000, uint256("effcaa0ee82ab1b4750234b0ceb3635b04512a2f0f74ca3bf5d503f85a7a6eb1"))
+    (370000, uint256("7a5a6f1fddd87e66bb179023cc5aa917ff20ddb285b896ebbe5fbc6bcd73be9b"))
+	(390000, uint256("a001cc6658ce15bd0c39d4961caaf9d20217296f81c2b6ecfa118b81a0c1e74f"))
+	(400000, uint256("2d48164444d2d78cedfe48f537e88b5518dbcba12fe8b6cc3bbe4e993506727a"))
+	(450000, uint256("640bae75bbd47ccd729074ea87ce8483e045bfa47d8bce2401dcfa6d440fdc6c"))
+	(490000, uint256("c3c456a6595275a7eb2e72ba6b374b8a034eb1c7a3caccdfa0413b7331b10fcf"))
+    (500000, uint256("072c189f242fbf92d633a7be80aafad7b3c23a200057edee4d9b4743ce15d595"))
+    (540000, uint256("81d6621323f44ee9e6364dcca62aafc9e05c002fef347226cd62cf1a674eca22"))
+    (543090, uint256("646d8a12dc6d0473ee57d85348f39603f9f1d26bb5841f9caaea1786ca073733"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1545049334, // * UNIX timestamp of last checkpoint block - height=350000  log2_work=69.15875  tx=725986  date=2018-12-17 12:22:14 GMT
+    1556736565, // * UNIX timestamp of last checkpoint block - height=350000  log2_work=69.15875  tx=725986  date=2018-12-17 12:22:14 GMT
     725986,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
@@ -123,7 +130,7 @@ public:
         nDefaultPort = 6520;
         bnProofOfWorkLimit = ~uint256(0) >> 20; // Wire starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 210000;
-        nMaxReorganizationDepth = 100;
+        nMaxReorganizationDepth = 90; //Reduce max reorg depth by 10%
         nEnforceBlockUpgradeMajority = 750;
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
@@ -144,7 +151,7 @@ public:
         nBlockRecalculateAccumulators = ~1; //Trigger a recalculation of accumulators
         nBlockFirstFraudulent = ~1; //First block that bad serials emerged
         nBlockLastGoodCheckpoint = ~1; //Last valid accumulator checkpoint
-        
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
         /**
          * Build the genesis block. Note that the output of the genesis coinbase cannot
          * be spent as it did not originally exist in the database.
@@ -176,6 +183,7 @@ public:
 
         vSeeds.push_back(CDNSSeedData("wire.seeds.mn.zone", "wire.seeds.mn.zone"));   // DNS SEEDER
 		vSeeds.push_back(CDNSSeedData("wire.mnseeds.com", "wire.mnseeds.com"));       // DNS SEEDER
+        vSeeds.push_back(CDNSSeedData("dnsseed.airwire.io", "dnsseed.airwire.io"));   // AirWire DNS Seeder
 		vSeeds.push_back(CDNSSeedData("209.250.243.131", "209.250.243.131"));         // Single node address
 		vSeeds.push_back(CDNSSeedData("209.250.241.176", "209.250.241.176"));         // Single node address
 		vSeeds.push_back(CDNSSeedData("45.77.239.108", "45.77.239.108"));             // Single node address
@@ -190,8 +198,8 @@ public:
 		vSeeds.push_back(CDNSSeedData("45.63.114.212", "45.63.114.212"));             // Single node address
 		vSeeds.push_back(CDNSSeedData("45.32.22.184", "45.32.22.184"));               // Single node address
 		vSeeds.push_back(CDNSSeedData("63.211.111.86", "63.211.111.86"));             // Single node address
-		vSeeds.push_back(CDNSSeedData("144.202.70.111", "144.202.70.111"));             // Single node address
-		
+		vSeeds.push_back(CDNSSeedData("144.202.70.111", "144.202.70.111"));           // Single node address
+
        
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 28);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 8);
@@ -270,7 +278,8 @@ public:
         nBlockRecalculateAccumulators = 9908000; //Trigger a recalculation of accumulators
         nBlockFirstFraudulent = 9891737; //First block that bad serials emerged
         nBlockLastGoodCheckpoint = 9891730; //Last valid accumulator checkpoint
-        
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
+
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1515616140;
         genesis.nNonce = 79855;
@@ -345,6 +354,7 @@ public:
         genesis.nTime = 1515524400;
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 732084;
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
 
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 51436;
@@ -381,6 +391,7 @@ public:
         nDefaultPort = 51478;
         vFixedSeeds.clear(); //! Unit test mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Unit test mode doesn't have any DNS seeds.
+        nMinStakeInput = 1000; //Require Minnimum 1k WIRE to stake
 
         fRequireRPCPassword = false;
         fMiningRequiresPeers = false;

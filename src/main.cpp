@@ -1959,10 +1959,10 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransact
         // invalid blocks, however allowing such transactions into the mempool
         // can be exploited as a DoS attack.
         // for any real tx this will be checked on AcceptToMemoryPool anyway
-        //        if (!CheckInputs(tx, state, view, false, MANDATORY_SCRIPT_VERIFY_FLAGS, true))
-        //        {
-        //            return error("AcceptableInputs: : BUG! PLEASE REPORT THIS! ConnectInputs failed against MANDATORY but not STANDARD flags %s", hash.ToString());
-        //        }
+               if (!CheckInputs(tx, state, view, false, MANDATORY_SCRIPT_VERIFY_FLAGS, true))
+               {
+                   return error("AcceptableInputs: : BUG! PLEASE REPORT THIS! ConnectInputs failed against MANDATORY but not STANDARD flags %s", hash.ToString());
+               }
 
         // Store transaction in memory
         // pool.addUnchecked(hash, entry);
@@ -2305,7 +2305,8 @@ void Misbehaving(NodeId pnode, int howmuch)
         return;
 
     state->nMisbehavior += howmuch;
-    int banscore = GetArg("-banscore", 100);
+    //reduce max banscore to be banned,so as to disconnect from bad peers faster
+    int banscore = GetArg("-banscore", 10);
     if (state->nMisbehavior >= banscore && state->nMisbehavior - howmuch < banscore) {
         LogPrintf("Misbehaving: %s (%d -> %d) BAN THRESHOLD EXCEEDED\n", state->name, state->nMisbehavior - howmuch, state->nMisbehavior);
         state->fShouldBan = true;
@@ -2394,6 +2395,12 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
             const COutPoint& prevout = tx.vin[i].prevout;
             const CCoins* coins = inputs.AccessCoins(prevout.hash);
             assert(coins);
+            if (tx.IsCoinStake()) {
+                CAmount inputSize = coins->vout[prevout.n].nValue;
+                if (inputSize < (Params().MinimumStakingAmount() * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT)) {
+                    return state.Invalid(error("CheckInputs(): tried to stake with smaller than minimum amount"));
+                }
+            }
 
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase() || coins->IsCoinStake()) {
