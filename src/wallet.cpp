@@ -2540,7 +2540,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     if (nBalance <= nReserveBalance)
         return false;
     //akshaynexus - Enforce balance to be greater than mininput
-    if(nBalance < (Params().MinStakeInput * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT))
+    if(nBalance < (Params().MinStakeInput() * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT))
         return error("CreateCoinStake : balance lower than minnimum input");
     if(fDebug)
        LogPrintf("CreateCoinStake() Current Balance%s\n",boost::lexical_cast<std::string>(nBalance));
