@@ -2397,7 +2397,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
             assert(coins);
             if (tx.IsCoinStake()) {
                 CAmount inputSize = coins->vout[prevout.n].nValue;
-                if (inputSize < (Params().MinStakeInput() * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT)) {
+                if (inputSize < (Params().MinStakeInput() * COIN) && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT) && coins->nHeight > 600000) {
                     return state.Invalid(error("CheckInputs(): tried to stake with smaller than minimum amount"));
                 }
             }
