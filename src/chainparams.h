@@ -117,8 +117,7 @@ public:
     int Zerocoin_Block_LastGoodCheckpoint() const { return nBlockLastGoodCheckpoint; }
     int Zerocoin_StartTime() const { return nZerocoinStartTime; }
     int Zerocoin_AccumulatorStartHeight() const { return nAccumulatorStartHeight; }
-    /** Staking params **/
-    int MinStakeInput() const {return nMinStakeInput;}
+
 protected:
     CChainParams() {}
 
@@ -175,7 +174,6 @@ protected:
     int nBlockLastGoodCheckpoint;
     int nZerocoinStartTime;
     int nAccumulatorStartHeight;
-    int nMinStakeInput;
 };
 
 /**
