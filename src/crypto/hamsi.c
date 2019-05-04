@@ -112,7 +112,7 @@ extern "C"{
 #pragma warning (disable: 4146)
 #endif
 
-#include "hamsi_helper.c"
+// #include "hamsi_helper.c"
 /* $Id: hamsi_helper.c 202 2010-05-31 15:46:48Z tp $ */
 /*
  * Helper code for Hamsi (input block expansion). This code is

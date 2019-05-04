@@ -1757,9 +1757,7 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
             continue;
         //if zerocoinspend, then use the block time
         int64_t nTxTime = out.tx->GetTxTime();
-        //check for minnimum stake input
-         if (out.tx->vout[out.i].nValue < Params().MinStakeInput() * COIN && GetAdjustedTime() > GetSporkValue(SPORK_17_MINSTAKE_ENFORCEMENT) && chainActive.Tip()->nHeight > 600000)
-            continue;
+
         if (out.tx->IsZerocoinSpend()) {
             if (!out.tx->IsInMainChain())
                 continue;
