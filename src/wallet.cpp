@@ -3634,7 +3634,7 @@ void CWallet::AutoZeromint()
 
 void CWallet::AutoCombineDust()
 {
-    if (IsInitialBlockDownload() || IsLocked()) {
+    if (chainActive.Tip()->nTime < (GetAdjustedTime() - 300) || IsLocked()) {
         return;
     }
 
