@@ -1,2 +1,0 @@
-#define BUILD_SUFFIX 00r3map00-Clean
-#define BUILD_DATE "2019-01-26 09:49:06 +1100"
