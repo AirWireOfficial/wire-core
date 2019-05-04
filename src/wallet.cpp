@@ -3661,7 +3661,7 @@ void CWallet::AutoCombineDust()
             coinControl->Select(outpt);
             vRewardCoins.push_back(out);
             nTotalRewardsValue += out.Value();
-             // Combine to the threshold and not way above
+                // Combine to the threshold and not way above
             if (nTotalRewardsValue > nAutoCombineThreshold * COIN)
                 break;
              // Around 180 bytes per input. We use 190 to be certain
@@ -3697,10 +3697,9 @@ void CWallet::AutoCombineDust()
             LogPrintf("AutoCombineDust createtransaction failed, reason: %s\n", strErr);
             continue;
         }
-      //we don't combine below the threshold unless the fees are 0 to avoid paying fees over fees over fees
+       //we don't combine below the threshold unless the fees are 0 to avoid paying fees over fees over fees
         if (vecSend[0].second < nAutoCombineThreshold * COIN && nFeeRet > 0)
             continue;
-
         if (!CommitTransaction(wtx, keyChange)) {
             LogPrintf("AutoCombineDust transaction commit failed\n");
             continue;

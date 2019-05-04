@@ -3441,7 +3441,6 @@ ROUND_FUN(whirlpool1, old1)
 
 #define RFUN   whirlpool_round
 #define HASH   whirlpool
-// #include "md_helper.c"
 /* $Id: md_helper.c 216 2010-06-08 09:46:57Z tp $ */
 /*
  * This file contains some functions which implement the external data
@@ -3788,13 +3787,11 @@ SPH_XCAT(HASH, _close)(void *cc, void *dst, unsigned rnum)
 {
 	SPH_XCAT(HASH, _addbits_and_close)(cc, 0, 0, dst, rnum);
 }
-
 #undef RFUN
 #undef HASH
 
 #define RFUN   whirlpool0_round
 #define HASH   whirlpool0
-// #include "md_helper.c"
 /* $Id: md_helper.c 216 2010-06-08 09:46:57Z tp $ */
 /*
  * This file contains some functions which implement the external data
@@ -4141,13 +4138,11 @@ SPH_XCAT(HASH, _close)(void *cc, void *dst, unsigned rnum)
 {
 	SPH_XCAT(HASH, _addbits_and_close)(cc, 0, 0, dst, rnum);
 }
-
 #undef RFUN
 #undef HASH
 
 #define RFUN   whirlpool1_round
 #define HASH   whirlpool1
-// #include "md_helper.c"
 /* $Id: md_helper.c 216 2010-06-08 09:46:57Z tp $ */
 /*
  * This file contains some functions which implement the external data
@@ -4494,7 +4489,6 @@ SPH_XCAT(HASH, _close)(void *cc, void *dst, unsigned rnum)
 {
 	SPH_XCAT(HASH, _addbits_and_close)(cc, 0, 0, dst, rnum);
 }
-
 #undef RFUN
 #undef HASH
 

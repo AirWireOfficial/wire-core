@@ -900,7 +900,7 @@ haval_out(sph_haval_context *sc, void *dst)
  *
  * @author   Thomas Pornin <thomas.pornin@cryptolog.com>
  */
-#include "sph_haval.h"
+
 #undef SPH_XCAT_
 #define SPH_XCAT_(a, b)   a ## b
 #undef SPH_XCAT
@@ -1094,7 +1094,7 @@ SPH_XCAT(SPH_XCAT(haval, PASSES), _close)(sph_haval_context *sc,
  *
  * @author   Thomas Pornin <thomas.pornin@cryptolog.com>
  */
-#include "sph_haval.h"
+
 #undef SPH_XCAT_
 #define SPH_XCAT_(a, b)   a ## b
 #undef SPH_XCAT
@@ -1251,7 +1251,6 @@ SPH_XCAT(SPH_XCAT(haval, PASSES), _close)(sph_haval_context *sc,
 	haval_out(sc, dst);
 	haval_init(sc, sc->olen, sc->passes);
 }
-
 
 #undef PASSES
 #define PASSES   5
@@ -1288,7 +1287,7 @@ SPH_XCAT(SPH_XCAT(haval, PASSES), _close)(sph_haval_context *sc,
  *
  * @author   Thomas Pornin <thomas.pornin@cryptolog.com>
  */
-#include "sph_haval.h"
+
 #undef SPH_XCAT_
 #define SPH_XCAT_(a, b)   a ## b
 #undef SPH_XCAT
@@ -1445,7 +1444,6 @@ SPH_XCAT(SPH_XCAT(haval, PASSES), _close)(sph_haval_context *sc,
 	haval_out(sc, dst);
 	haval_init(sc, sc->olen, sc->passes);
 }
-
 
 /* ====================================================================== */
 
