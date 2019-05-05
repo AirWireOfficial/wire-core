@@ -4318,9 +4318,9 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         return error("%s: forked chain longer than maximum reorg limit", __func__);
                     }
 
-                    if (!ReadBlockFromDisk(bl, prev))
+                    if (!ReadBlockFromDisk(bl, last))
                         // Previous block not on disk
-                        return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
+                        return error("%s: previous block %s not on disk", __func__, last->GetBlockHash().GetHex());
                     // Increase amount of read blocks
                     readBlock++;
                     // Loop through every input from said block
