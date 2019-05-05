@@ -4343,7 +4343,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
 
                     last = last->pprev;
 
-                } while (!chainActive.Contains(prev));
+                } while (!chainActive.Contains(last));
             }
 
                 // go to the parent block
