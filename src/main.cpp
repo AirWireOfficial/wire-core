@@ -4308,7 +4308,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 wireInputs.push_back(stakeIn);
             }
         }
-            if (!chainActive.Contains(prev)) {
+            if (!chainActive.Contains(last)) {
                 int readBlock = 0;
                 // Go backwards on the forked chain up to the split
                 do {
