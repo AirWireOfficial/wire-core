@@ -4341,7 +4341,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         }
                     }
 
-                    prev = prev->pprev;
+                    last = last->pprev;
 
                 } while (!chainActive.Contains(prev));
             }
