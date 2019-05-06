@@ -184,6 +184,8 @@ public:
         vSeeds.push_back(CDNSSeedData("wire.seeds.mn.zone", "wire.seeds.mn.zone"));   // DNS SEEDER
 		vSeeds.push_back(CDNSSeedData("wire.mnseeds.com", "wire.mnseeds.com"));       // DNS SEEDER
         vSeeds.push_back(CDNSSeedData("dnsseed.airwire.io", "dnsseed.airwire.io"));   // AirWire DNS Seeder
+        vSeeds.push_back(CDNSSeedData("dnsseed1.airwiremasternode.com", "dnsseed1.airwiremasternode.com"));         // Dnsssed
+        vSeeds.push_back(CDNSSeedData("dnsseed2.airwiremasternode.com", "dnsseed2.airwiremasternode.com"));         // Dnsssed
 		vSeeds.push_back(CDNSSeedData("209.250.243.131", "209.250.243.131"));         // Single node address
 		vSeeds.push_back(CDNSSeedData("209.250.241.176", "209.250.241.176"));         // Single node address
 		vSeeds.push_back(CDNSSeedData("45.77.239.108", "45.77.239.108"));             // Single node address
