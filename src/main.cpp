@@ -4303,8 +4303,6 @@ if(isBlockFromFork){
         std::vector<CTxIn> wireInputs;
         std::vector<CTxIn> zWIREInputs;
             CBlockIndex *prev = pindexPrev;
-
-        const bool hasWIREInputs = !wireInputs.empty();
  for (const CTxIn& stakeIn : stakeTxIn.vin) {
             if(stakeIn.scriptSig.IsZerocoinSpend()){
                 zWIREInputs.push_back(stakeIn);
@@ -4312,19 +4310,17 @@ if(isBlockFromFork){
                 wireInputs.push_back(stakeIn);
             }
         }
+        const bool hasWIREInputs = !wireInputs.empty();
+
             if (!chainActive.Contains(prev)) {
                 int readBlock = 0;
                 // Go backwards on the forked chain up to the split
-                do {
+               while (!chainActive.Contains(prev)) {
                     // Check if the forked chain is longer than the max reorg limit
                     if (readBlock == Params().MaxReorganizationDepth()) {
                         // TODO: Remove this chain from disk.
                         return error("%s: forked chain longer than maximum reorg limit", __func__);
                     }
-
-                    if (!ReadBlockFromDisk(bl, prev))
-                        // Previous block not on disk
-                        return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
                     // Increase amount of read blocks
                     readBlock++;
                     // Loop through every input from said block
@@ -4346,10 +4342,10 @@ if(isBlockFromFork){
                     }
 
                     prev = prev->pprev;
-         if (!ReadBlockFromDisk(bl, prev))
-                    // Previous block not on disk
-                    return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
-                } while (!chainActive.Contains(prev));
+                                        if (!ReadBlockFromDisk(bl, prev))
+                        // Previous block not on disk
+                        return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
+                }
             }
                 }
             }
