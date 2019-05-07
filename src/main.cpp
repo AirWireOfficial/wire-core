@@ -4296,6 +4296,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         }
                     }
                 }
+        bool isBlockFromFork = pindexPrev != nullptr && chainActive.Tip() != pindexPrev;
+if(isBlockFromFork){
        // Coin stake
         CTransaction &stakeTxIn = block.vtx[1];
         std::vector<CTxIn> wireInputs;
@@ -4349,10 +4351,11 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                     return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
                 } while (!chainActive.Contains(prev));
             }
+                }
             }
         }
-    }
 
+    }
     // Write block to history file
     try {
         unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
