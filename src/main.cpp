@@ -4296,58 +4296,58 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         }
                     }
                 }
-//         bool isBlockFromFork = pindexPrev != nullptr && chainActive.Tip() != pindexPrev;
-// if(isBlockFromFork){
-//        // Coin stake
-//         CTransaction &stakeTxIn = block.vtx[1];
-//         std::vector<CTxIn> wireInputs;
-//         std::vector<CTxIn> zWIREInputs;
-//             CBlockIndex *prev = pindexPrev;
+        bool isBlockFromFork = pindexPrev != nullptr && chainActive.Tip() != pindexPrev;
+if(isBlockFromFork){
+       // Coin stake
+        CTransaction &stakeTxIn = block.vtx[1];
+        std::vector<CTxIn> wireInputs;
+        std::vector<CTxIn> zWIREInputs;
+            CBlockIndex *prev = pindexPrev;
+ for (const CTxIn& stakeIn : stakeTxIn.vin) {
+            if(stakeIn.scriptSig.IsZerocoinSpend()){
+                zWIREInputs.push_back(stakeIn);
+            }else{
+                wireInputs.push_back(stakeIn);
+            }
+        }
+        const bool hasWIREInputs = !wireInputs.empty();
 
-//         const bool hasWIREInputs = !wireInputs.empty();
-//  for (const CTxIn& stakeIn : stakeTxIn.vin) {
-//             if(stakeIn.scriptSig.IsZerocoinSpend()){
-//                 zWIREInputs.push_back(stakeIn);
-//             }else{
-//                 wireInputs.push_back(stakeIn);
-//             }
-//         }
-//             if (!chainActive.Contains(prev)) {
-//                 int readBlock = 0;
-//                 // Go backwards on the forked chain up to the split
-//                while (!chainActive.Contains(prev)) {
-//                     // Check if the forked chain is longer than the max reorg limit
-//                     if (readBlock == Params().MaxReorganizationDepth()) {
-//                         // TODO: Remove this chain from disk.
-//                         return error("%s: forked chain longer than maximum reorg limit", __func__);
-//                     }
-//                     // Increase amount of read blocks
-//                     readBlock++;
-//                     // Loop through every input from said block
-//                     for (const CTransaction &t : bl.vtx) {
-//                         for (const CTxIn &in: t.vin) {
-//                             // Loop through every input of the staking tx
-//                             for (const CTxIn &stakeIn : wireInputs) {
-//                                 // if it's already spent
+            if (!chainActive.Contains(prev)) {
+                int readBlock = 0;
+                // Go backwards on the forked chain up to the split
+               while (!chainActive.Contains(prev)) {
+                    // Check if the forked chain is longer than the max reorg limit
+                    if (readBlock == Params().MaxReorganizationDepth()) {
+                        // TODO: Remove this chain from disk.
+                        return error("%s: forked chain longer than maximum reorg limit", __func__);
+                    }
+                    // Increase amount of read blocks
+                    readBlock++;
+                    // Loop through every input from said block
+                    for (const CTransaction &t : bl.vtx) {
+                        for (const CTxIn &in: t.vin) {
+                            // Loop through every input of the staking tx
+                            for (const CTxIn &stakeIn : wireInputs) {
+                                // if it's already spent
 
-//                                 // First regular staking check
-//                                 if (hasWIREInputs) {
-//                                     if (stakeIn.prevout == in.prevout) {
-//                                         return state.DoS(100, error("%s: input already spent on a previous block",
-//                                                                     __func__));
-//                                     }
-//                                 }
-//                             }
-//                         }
-//                     }
+                                // First regular staking check
+                                if (hasWIREInputs) {
+                                    if (stakeIn.prevout == in.prevout) {
+                                        return state.DoS(100, error("%s: input already spent on a previous block",
+                                                                    __func__));
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-//                     prev = prev->pprev;
-//                                         if (!ReadBlockFromDisk(bl, prev))
-//                         // Previous block not on disk
-//                         return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
-//                 }
-//             }
-//                 }
+                    prev = prev->pprev;
+                                        if (!ReadBlockFromDisk(bl, prev))
+                        // Previous block not on disk
+                        return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
+                }
+            }
+                }
             }
         }
 
