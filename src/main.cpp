@@ -4296,10 +4296,14 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         }
                     }
                 }
+        bool isBlockFromFork = pindexPrev != nullptr && chainActive.Tip() != pindexPrev;
+if(isBlockFromFork){
        // Coin stake
         CTransaction &stakeTxIn = block.vtx[1];
         std::vector<CTxIn> wireInputs;
         std::vector<CTxIn> zWIREInputs;
+            CBlockIndex *prev = pindexPrev;
+
         const bool hasWIREInputs = !wireInputs.empty();
  for (const CTxIn& stakeIn : stakeTxIn.vin) {
             if(stakeIn.scriptSig.IsZerocoinSpend()){
@@ -4308,7 +4312,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 wireInputs.push_back(stakeIn);
             }
         }
-            if (!chainActive.Contains(last)) {
+            if (!chainActive.Contains(prev)) {
                 int readBlock = 0;
                 // Go backwards on the forked chain up to the split
                 do {
@@ -4318,9 +4322,9 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         return error("%s: forked chain longer than maximum reorg limit", __func__);
                     }
 
-                    if (!ReadBlockFromDisk(bl, last))
+                    if (!ReadBlockFromDisk(bl, prev))
                         // Previous block not on disk
-                        return error("%s: previous block %s not on disk", __func__, last->GetBlockHash().GetHex());
+                        return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
                     // Increase amount of read blocks
                     readBlock++;
                     // Loop through every input from said block
@@ -4341,17 +4345,17 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                         }
                     }
 
-                    last = last->pprev;
-
-                } while (!chainActive.Contains(last));
+                    prev = prev->pprev;
+         if (!ReadBlockFromDisk(bl, prev))
+                    // Previous block not on disk
+                    return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
+                } while (!chainActive.Contains(prev));
             }
-
-                // go to the parent block
-                last = last->pprev;
+                }
             }
         }
-    }
 
+    }
     // Write block to history file
     try {
         unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
