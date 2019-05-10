@@ -4290,6 +4290,7 @@ L           LogPrintf("Block from fork detected");
                         for (CTxIn stakeIn : block.vtx[1].vin) {
                             // if they spend the same input
                             if (stakeIn.prevout == in.prevout) {
+                            LogPrintf("AcceptBlock() Spent input detected! %s == %s BLOCK REJECTED!", stakeIn.prevout.ToString(), in.prevout.ToString());
                                 // reject the block
                                 return false;
                             }
