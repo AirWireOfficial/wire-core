@@ -4278,7 +4278,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         if (!chainActive.Contains(pindexPrev) && pindexPrev != NULL || isBlockFromFork) {
             // start at the block we're adding on to
             CBlockIndex *last = pindexPrev;
-L           LogPrintf("Block from fork detected");
+           LogPrintf("Block from fork detected");
             // while that block is not on the main chain
             while (!chainActive.Contains(last) && last != NULL) {
                 CBlock bl;
@@ -4298,7 +4298,7 @@ L           LogPrintf("Block from fork detected");
                     }
                 }
                 // go to the parent block
-                last = pindexPrev->pprev;
+                last = last->pprev;
             }
         }
     }
