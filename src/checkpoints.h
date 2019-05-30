@@ -38,7 +38,8 @@ CBlockIndex* GetLastCheckpoint();
 double GuessVerificationProgress(CBlockIndex* pindex, bool fSigchecks = true);
 
 extern bool fEnabled;
-
+//! Returns closest Checkpoint to a given block number
+int GetClosestCheckpoint(int blocknum = 0);
 } //namespace Checkpoints
 
 #endif // BITCOIN_CHECKPOINTS_H
