@@ -4848,6 +4848,23 @@ bool CVerifyDB::VerifyDB(CCoinsView* coinsview, int nCheckLevel, int nCheckDepth
                 return error("VerifyDB() : *** found unconnectable block at %d, hash=%s", pindex->nHeight, pindex->GetBlockHash().ToString());
         }
     }
+  // Validate & Enforce last checkpoint
+
+    CBlockIndex* pindex = chainActive.Tip();
+    int airwireLastCheckpoint = 0;
+
+    if (pindex)
+      airwireLastCheckpoint = Checkpoints::GetClosestCheckpoint(pindex->nHeight);
+
+    if (airwireLastCheckpoint) {
+      LogPrintf("Validating Last Checkpoint (current height=%s last checkpoint height=%s)...", pindex->nHeight, airwireLastCheckpoint);
+      if (!Checkpoints::CheckBlock(airwireLastCheckpoint,chainActive[airwireLastCheckpoint]->GetBlockHash())) {
+        LogPrintf("FAILED !!!\n");
+        return error("VerifyDB() : *** Checkpoint validation at block %s FAILED", airwireLastCheckpoint);
+      } else {
+        LogPrintf("Passed\n");
+      }
+    }
 
     LogPrintf("No coin database inconsistencies in last %i blocks (%i transactions)\n", chainActive.Height() - pindexState->nHeight, nGoodTransactions);
 
