@@ -2121,79 +2121,80 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nHeight)
 {
     int64_t nSubsidy = 0;
+	unsigned int nPhase = 0;
 
-    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 200 && nHeight > 0)
-            return 250000 * COIN;
-    }
-
-    if (nHeight == 0) {
+    if (nHeight == 0)
         nSubsidy = 250000000 * COIN;
-    } else if (nHeight < 40520 && nHeight > 0) {
-        nSubsidy = 1 * COIN;
-    } else if (nHeight < 80842 && nHeight > 40520) {
-        nSubsidy = 2 * COIN;
-	} else if (nHeight < 343643 && nHeight > 80842) {
-        nSubsidy = 90 * COIN;
-	} else if (nHeight < 606444 && nHeight > 343643) {
-        nSubsidy = 80 * COIN;
-	} else if (nHeight < 869245 && nHeight > 606444) {
-        nSubsidy = 70 * COIN;
-	} else if (nHeight < 1132046 && nHeight > 869245) {
-        nSubsidy = 60 * COIN;
-	} else if (nHeight < 2180367 && nHeight > 1132046) {
-        nSubsidy = 24 * COIN;
-	} else if (nHeight < 3231568 && nHeight > 2180367) {
-        nSubsidy = 14 * COIN;
-	} else if (nHeight < 4282769 && nHeight > 3231568) {
-        nSubsidy = 13 * COIN;
-	} else if (nHeight < 5333970 && nHeight > 4282769) {
-        nSubsidy = 12 * COIN;
-	} else if (nHeight < 6382291 && nHeight > 5333970) {
-        nSubsidy = 11 * COIN;
-	} else if (nHeight < 7433492 && nHeight > 6382291) {
-        nSubsidy = 10 * COIN;
-	} else if (nHeight < 8484693 && nHeight > 7433492) {
-        nSubsidy = 9.5 * COIN;
-	} else if (nHeight < 9535894 && nHeight > 8484693) {
-        nSubsidy = 9 * COIN;
-    } else if (nHeight < 10584215 && nHeight > 9535894) {
-        nSubsidy = 8.5 * COIN;
-	} else if (nHeight < 11635416 && nHeight > 10584215) {
-        nSubsidy = 8 * COIN;
-	} else if (nHeight < 12686618 && nHeight > 11635416) {
-        nSubsidy = 7.5 * COIN;
-	} else if (nHeight < 13737818 && nHeight > 12686618) {
-        nSubsidy = 7 * COIN;
-	} else if (nHeight < 14786139 && nHeight > 13737818) {
-        nSubsidy = 6.5 * COIN;
-	} else if (nHeight < 15837340 && nHeight > 14786139) {
-        nSubsidy = 6 * COIN;
-	} else if (nHeight < 16888541 && nHeight > 15837340) {
-        nSubsidy = 5.5 * COIN;
-	} else if (nHeight < 17939742 && nHeight > 16888541) {
-        nSubsidy = 5 * COIN;
-	} else if (nHeight < 18988063 && nHeight > 17939742) {
-        nSubsidy = 4.5 * COIN;
-	} else if (nHeight < 20039264 && nHeight > 18988063) {
-        nSubsidy = 4.25 * COIN;
-	} else if (nHeight < 21090465 && nHeight > 20039264) {
-        nSubsidy = 4 * COIN;
-    } else {
-        nSubsidy = 4 * COIN;
+		
+		
+    if (nHeight < 40520) nPhase = 1;
+	if (nHeight > 40520   && nHeight < 80842)  nPhase = 2;
+	if (nHeight > 80842  && nHeight < 343643)  nPhase = 3;
+	if (nHeight > 343643  && nHeight < 606444)  nPhase = 4;
+	if (nHeight > 606444  && nHeight < 869245)  nPhase = 5;
+	if (nHeight > 869245  && nHeight < 1132046)  nPhase = 6;
+	if (nHeight > 1132046  && nHeight < 2180367)  nPhase = 7;
+	if (nHeight > 2180367  && nHeight < 3231568)  nPhase = 8;
+	if (nHeight > 3231568  && nHeight < 4282769)  nPhase = 9;
+	if (nHeight > 4282769  && nHeight < 5333970)  nPhase = 10;
+	if (nHeight > 5333970  && nHeight < 6382291)  nPhase = 11;
+	if (nHeight > 6382291  && nHeight < 7433492)  nPhase = 12;
+	if (nHeight > 7433492  && nHeight < 8484693)  nPhase = 13;
+	if (nHeight > 8484693  && nHeight < 9535894)  nPhase = 14;
+	if (nHeight > 9535894  && nHeight < 10584215)  nPhase = 15;
+	if (nHeight > 10584215  && nHeight < 11635416)  nPhase = 16;
+	if (nHeight > 11635416  && nHeight < 12686618)  nPhase = 17;
+	if (nHeight > 12686618  && nHeight < 13737818)  nPhase = 18;
+	if (nHeight > 13737818  && nHeight < 14786139)  nPhase = 19;
+	if (nHeight > 14786139  && nHeight < 15837340)  nPhase = 20;
+	if (nHeight > 15837340  && nHeight < 16888541)  nPhase = 21;
+	if (nHeight > 16888541  && nHeight < 17939742)  nPhase = 22;
+	if (nHeight > 17939742  && nHeight < 18988063)  nPhase = 23;
+	if (nHeight > 18988063  && nHeight < 20039264)  nPhase = 24;
+	if (nHeight > 20039264  && nHeight < 21090465)  nPhase = 25;
+	
+	switch (nPhase) {
+        case 1: nSubsidy = 1 * COIN; break;
+        case 2: nSubsidy = 2 * COIN; break;
+        case 3: nSubsidy = 90 * COIN; break;
+        case 4: nSubsidy = 80 * COIN; break;
+        case 5: nSubsidy = 70 * COIN; break;
+        case 6: nSubsidy = 60 * COIN; break;
+        case 7: nSubsidy = 24 * COIN; break;
+        case 8: nSubsidy = 14 * COIN; break;
+        case 9: nSubsidy = 13 * COIN; break;
+        case 10: nSubsidy = 12 * COIN; break;
+		case 11: nSubsidy = 11 * COIN; break;
+		case 12: nSubsidy = 10 * COIN; break;
+		case 13: nSubsidy = 9.5 * COIN; break;
+		case 14: nSubsidy = 9 * COIN; break;
+		case 15: nSubsidy = 8.5 * COIN; break;
+		case 16: nSubsidy = 8 * COIN; break;
+		case 17: nSubsidy = 7.5 * COIN; break;
+		case 18: nSubsidy = 7 * COIN; break;
+		case 19: nSubsidy = 6.5 * COIN; break;
+		case 20: nSubsidy = 6 * COIN; break;
+		case 21: nSubsidy = 5.5 * COIN; break;
+		case 22: nSubsidy = 5 * COIN; break;
+		case 23: nSubsidy = 4.5 * COIN; break;
+		case 24: nSubsidy = 4.25 * COIN; break;
+		case 25: nSubsidy = 4 * COIN; break;
+		default: nSubsidy = 4 * COIN;
+
     }
+	
+	if (fDebug) {
+        LogPrintf("%s - currently in nPhase %d, blockreward %llu WIRE\n",
+                  __func__, nPhase, nSubsidy);
+    }
+	
     return nSubsidy;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount)
 {
     int64_t ret = 0;
-
-    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if (nHeight < 200)
-            return 0;
-    }
-	
+    
 	// 70% for Masternodes
 	if (nHeight == 0) {
 	      ret = blockValue  / 100 * 0;
